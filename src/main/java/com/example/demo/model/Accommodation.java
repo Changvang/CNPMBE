@@ -12,6 +12,8 @@ public class Accommodation {
     @Column(name="Id")
 	private long id;
 
+
+
 	@Column(name = "Price")
 	private double price;
 
@@ -20,7 +22,7 @@ public class Accommodation {
 
 	@Column(name = "Facility")
     private String facility;
-    
+
     @Column(name="Address")
     private String address;
 

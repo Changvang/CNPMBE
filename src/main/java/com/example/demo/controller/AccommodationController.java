@@ -68,6 +68,24 @@ public class AccommodationController {
         }
     }
 
+    @GetMapping("/accommodations/address/{address}")
+    public ResponseEntity<List<Accommodation>> getAccomodationsByAddress(@PathVariable("address") String address) {
+        try {
+            List<Accommodation> accommodations = new ArrayList<Accommodation>();
+            accRepo.findByAddressContaining(address).forEach(accommodations::add);
+
+
+            if (accommodations.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(accommodations, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
     @PostMapping("/accommodations")
     public ResponseEntity<Accommodation> createAccommodation(@RequestBody Accommodation acc) {
         try {

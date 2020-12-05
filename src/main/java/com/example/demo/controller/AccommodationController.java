@@ -13,48 +13,60 @@ import com.example.demo.model.*;
 
 import com.example.demo.repository.*;
 
-
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 public class AccommodationController {
 
-  @Autowired
-  AccommodationRepository accRepo;
+    @Autowired
+    AccommodationRepository accRepo;
 
-  @GetMapping("/accommodations")
-  public ResponseEntity<List<Accommodation>> getAllAccommodation() {
-	  try {
-	      List<Accommodation> accommodations = new ArrayList<Accommodation>();
-      
-        //  accRepo.findByTitleContaining(serId).forEach(demos::add);
-        
+    @GetMapping("/accommodations")
+    public ResponseEntity<List<Accommodation>> getAllAccommodation() {
+        try {
+            List<Accommodation> accommodations = new ArrayList<Accommodation>();
+
+            // accRepo.findByTitleContaining(serId).forEach(demos::add);
+
             accRepo.findAll().forEach(accommodations::add);
-       
-        if (accommodations.isEmpty()) {
-	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+            if (accommodations.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(accommodations, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
 
-	      return new ResponseEntity<>(accommodations, HttpStatus.OK);
-	    } catch (Exception e) {
-	      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-	    }
-  }
-
-  @GetMapping("/accommodations/{id}")
-  public ResponseEntity<Accommodation> getAccomodationsById(@PathVariable("id") long id) {
+    @GetMapping("/accommodations/{id}")
+    public ResponseEntity<Accommodation> getAccomodationsById(@PathVariable("id") long id) {
         Optional<Accommodation> demoData = accRepo.findById(id);
 
-	    if (demoData.isPresent()) {
-	      return new ResponseEntity<>(demoData.get(), HttpStatus.OK);
-	    } else {
-	      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	    }
-  }
+        if (demoData.isPresent()) {
+            return new ResponseEntity<>(demoData.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/accommodations/getByOwnerID/{id}")
+    public ResponseEntity<List<Accommodation>> getAccomodationsByOwnerId(@PathVariable("id") long id) {
+        try {
+            List<Accommodation> accommodations = new ArrayList<Accommodation>();
 
 
+            accRepo.findAllByuserID(id).forEach(accommodations::add);
 
+            if (accommodations.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
 
-
+            return new ResponseEntity<>(accommodations, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

@@ -13,5 +13,6 @@ import com.example.demo.model.Accommodation;
 public interface AccommodationRepository extends JpaRepository<Accommodation, Long>{
     List<Accommodation> findByid(long ID);
     List<Accommodation> findAllByuserID(long userID);
+    
  
 }

@@ -56,7 +56,6 @@ public class AccommodationController {
         try {
             List<Accommodation> accommodations = new ArrayList<Accommodation>();
 
-
             accRepo.findAllByuserID(id).forEach(accommodations::add);
 
             if (accommodations.isEmpty()) {
@@ -68,5 +67,19 @@ public class AccommodationController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PostMapping("/accommodations")
+    public ResponseEntity<Accommodation> createAccommodation(@RequestBody Accommodation acc) {
+        try {
+            Accommodation _demo = accRepo.save(new Accommodation(acc.getPrice(),acc.getArea(),acc.getFacility(),acc.getAddress(),acc.getUserID()));
+            return new ResponseEntity<>(_demo, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    
+    
+   
 
 }

@@ -24,9 +24,7 @@ public class CommentController {
     public ResponseEntity<List<Comment>> getAllCommentByIdRoom(@PathVariable("acccode") long id) {
         try {
             List<Comment> comments = new ArrayList<Comment>();
-
-           
-
+       
             commentRepository.findAllByacccode(id).forEach(comments::add);
 
             if (comments.isEmpty()) {
@@ -34,6 +32,16 @@ public class CommentController {
             }
 
             return new ResponseEntity<>(comments, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/comments")
+    public ResponseEntity<Comment> AddNewImageForRoom(@RequestBody Comment acc) {
+        try {
+            Comment _demo = commentRepository.save(new Comment(acc.getUserid(),acc.getAcccode(),acc.getRating(),acc.getContent(),acc.getPostdate()));
+            return new ResponseEntity<>(_demo, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

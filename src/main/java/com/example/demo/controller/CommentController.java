@@ -46,5 +46,16 @@ public class CommentController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @DeleteMapping("/comments/{id}")
+	public ResponseEntity<HttpStatus> deleteCommentByCommendID(@PathVariable("id") long id) {
+		try {
+			commentRepository.deleteById(id);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
     
 }

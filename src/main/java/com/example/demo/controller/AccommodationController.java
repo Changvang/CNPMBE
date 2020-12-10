@@ -68,7 +68,7 @@ public class AccommodationController {
         }
     }
 
-    @GetMapping("/accommodations/address/{address}")
+    @GetMapping("/accommodations/searchByAddress/{address}")
     public ResponseEntity<List<Accommodation>> getAccomodationsByAddress(@PathVariable("address") String address) {
         try {
             List<Accommodation> accommodations = new ArrayList<Accommodation>();

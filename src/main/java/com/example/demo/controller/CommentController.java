@@ -36,6 +36,30 @@ public class CommentController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    public Float sum = 0.0f;
+    public Integer walker = 0;
+    public float res = 0.0f;
+
+    @GetMapping("/rating/{acccode}")
+    public ResponseEntity<Float> getRatingOfAcc(@PathVariable("acccode") long id) {
+        try {
+            List<Comment> comments = new ArrayList<Comment>();
+            
+            commentRepository.findAllByacccode(id).forEach(comments::add);
+
+            if (comments.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            
+            comments.forEach((i) -> {sum += i.getRating();
+                                           walker += 1; });
+            res = sum/walker;
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/comments/getByUserID/{id}")
     public ResponseEntity<List<Comment>> getCommentsByUserid(@PathVariable("id") long id) {
         try {

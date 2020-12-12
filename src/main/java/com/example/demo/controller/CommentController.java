@@ -36,6 +36,23 @@ public class CommentController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @GetMapping("/comments/getByUserID/{id}")
+    public ResponseEntity<List<Comment>> getCommentsByUserid(@PathVariable("id") long id) {
+        try {
+            List<Comment> comments = new ArrayList<Comment>();
+       
+            commentRepository.findAllByuserid(id).forEach(comments::add);
+
+            if (comments.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(comments, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     @PostMapping("/comments")
     public ResponseEntity<Comment> AddNewImageForRoom(@RequestBody Comment acc) {
@@ -57,5 +74,21 @@ public class CommentController {
 		}
 	}
 
+    @PutMapping("/comments/{id}")
+    public ResponseEntity<Comment> updateComment(@PathVariable("id") long id, @RequestBody Comment comment) {
+        Optional<Comment> commentData = commentRepository.findById(id);
+  
+          if (commentData.isPresent()) {
+            Comment _comment = commentData.get();
+            _comment.setUserid(comment.getUserid());
+            _comment.setAcccode(comment.getAcccode());
+            _comment.setRating(comment.getRating());
+            _comment.setContent(comment.getContent());
+            _comment.setPostdate(comment.getPostdate());
+            return new ResponseEntity<>(commentRepository.save(_comment), HttpStatus.OK);
+          } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+          }
+    }
     
 }

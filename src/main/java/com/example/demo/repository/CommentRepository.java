@@ -9,4 +9,5 @@ import com.example.demo.model.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment, Long>{
     List<Comment> findAllByacccode(long acccode);
+    List<Comment> findAllByuserid(long userid);
 }

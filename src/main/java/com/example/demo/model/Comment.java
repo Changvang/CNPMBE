@@ -57,7 +57,25 @@ public class Comment {
         return rating;
     }
     
+    public void setUserid(long userid) {
+		this.userid = userid;
+	}
 
+    public void setAcccode(long acccode) {
+		this.acccode = acccode;
+    }
+    
+    public void setPostdate(Date postdate) {
+		this.postdate = postdate;
+    }
+    
+    public void setContent(String content) {
+		this.content = content;
+    }
+    
+    public void setRating(float rating) {
+		this.rating = rating;
+	}
 
 	@Override
 	public String toString() {

@@ -1,7 +1,10 @@
 
 package com.example.demo.model;
 
+import java.sql.Blob;
+
 import javax.persistence.*;
+
 @Entity
 @Table(name = "PathFiles")
 public class PathFile {
@@ -10,33 +13,30 @@ public class PathFile {
     @Column(name = "Id")
     private long id;
 
-    @Column(name="Path")
-    private String path;
+    @Column(name = "picByte", length = 2000)
+    private byte[] picByte;
 
-    @Column(name="RoomID")
+    @Column(name = "RoomID")
     private long roomID;
 
-    public PathFile(){}
+    public PathFile() {
+    }
 
-    public PathFile(String path, long roomID)
-    {
-        this.path=path;
-        this.roomID=roomID;
+    public PathFile(byte[] data, long roomID) {
+        this.picByte = data;
+        this.roomID = roomID;
     }
 
     public long getId() {
         return id;
     }
-    public String getPath() {
-        return path;
-    }
+
     public long getRoomID() {
         return roomID;
     }
-    @Override
-    public String toString()
-    {
-        return "PathFile[id="+id+",path="+path+",roomID="+roomID+"]";
-    }
-}
 
+    public byte[] getPicByte() {
+        return picByte;
+    }
+
+}

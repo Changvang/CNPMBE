@@ -26,6 +26,7 @@ public class Accommodation {
 
     @Column(name = "UserID")
     private long userID;
+    
 
     public Accommodation() {
 
@@ -63,6 +64,10 @@ public class Accommodation {
         return userID;
     }
 
+    public byte[] getPicByte() {
+        return picByte;
+    }
+    
     @Override
     public String toString() {
         return "Accommodation[id=" + id + ", price=" + price + ", address=" + address + ", area=" + area + ", facility="
